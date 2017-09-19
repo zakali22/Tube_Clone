@@ -2,7 +2,7 @@ $icon-font-path: '../fonts/';
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
-@import url('https://fonts.googleapis.com/css?family=Dosis');
+@import url('https://fonts.googleapis.com/css?family=Dosis|Lato:300');
 .container {
   display: block;
   width: 60%;
@@ -20,20 +20,49 @@ $icon-font-path: '../fonts/';
 .container span {
   color: white;
   background-color: red;
-  border-radius: 18px;
+  border-radius: 20px;
   margin-left: 10px;
-  font-weight: lighter;
-  padding: 2px 3px 2px 3px;
+  padding: 2px 5px 2px 5px;
 }
 
-.container input {
+.container form {
   display: block;
-  width: 40%;
+  width: 90%;
   margin: 0 auto;
   margin-top: 50px;
-  height: 29px;
+  padding-left: 200px;
+  font-size: 20px;
+  font-family: 'Lato', sans-serif;
+}
+
+
+.container input {
+  display: inline;
+  width: 50%;
+  height: 39px;
+  // border-top: 1px solid #ccc;
+  // border-left: 1px solid #ccc;
   border: none;
-  -moz-box-shadow:    3px 3px 5px 6px #ccc;
-  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
-  box-shadow:         3px 3px 5px 6px #ccc;
+  font-size: 20px;
+  padding: 15px;
+  font-family: inherit;
+  -moz-box-shadow:    3px 3px 5px 1px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 1px #ccc;
+  box-shadow:         3px 3px 5px 1px #ccc;
+  font-family: 'Lato', sans-serif;
+}
+
+.container input:focus {
+  outline: 0;
+}
+
+.container button {
+  display: inline;
+  width: 190px;
+  height: 45px;
+  color: #757575;
+  border: none;
+  background-color: #f2f2f2;
+  border: 1px solid #f2f2f2;
+  background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
 }
