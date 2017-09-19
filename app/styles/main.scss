@@ -2,18 +2,18 @@ $icon-font-path: '../fonts/';
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300');
+@import url('https://fonts.googleapis.com/css?family=Dosis');
 .container {
   display: block;
   width: 60%;
   margin: 0 auto;
-  margin-top: 170px;
+  margin-top: 270px;
 }
 
 .container h1 {
   text-align: center;
   font-size: 70px;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Dosis', sans-serif;
   font-weight: bolder;
 }
 
@@ -22,7 +22,18 @@ $icon-font-path: '../fonts/';
   background-color: red;
   border-radius: 18px;
   margin-left: 10px;
-  padding: 3px;
   font-weight: lighter;
-  padding: 3px 5px 3px 5px;
+  padding: 2px 3px 2px 3px;
+}
+
+.container input {
+  display: block;
+  width: 40%;
+  margin: 0 auto;
+  margin-top: 50px;
+  height: 29px;
+  border: none;
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #ccc;
 }
