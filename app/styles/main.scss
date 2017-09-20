@@ -3,11 +3,36 @@ $icon-font-path: '../fonts/';
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 @import url('https://fonts.googleapis.com/css?family=Dosis|Lato:300');
+nav {
+  width: 100%;
+  margin-top: 20px;
+}
+
+nav ul {
+  list-style: none;
+  float: right;
+  margin-right: 30px;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li button {
+  width: 90px;
+  height: 45px;
+  color: #757575;
+  border: none;
+  background-color: #f2f2f2;
+  border: 1px solid #f2f2f2;
+  background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+}
+
 .container {
   display: block;
   width: 60%;
   margin: 0 auto;
-  margin-top: 270px;
+  margin-top: 200px;
 }
 
 .container h1 {
@@ -69,4 +94,16 @@ $icon-font-path: '../fonts/';
 
 .container sup {
   font-size: 30px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  font-size: 20px;
+  font-family: 'Poiret One', cursive;
+}
+
+.footer i {
+  color: red;
 }
