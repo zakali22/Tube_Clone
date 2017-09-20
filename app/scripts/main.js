@@ -1,103 +1,97 @@
-// Client ID and API key from the Developer Console
-     var CLIENT_ID = '122566819561-266nkdlave95pdr558rt9l3f4iolmfv5.apps.googleusercontent.com';
 
-     // Array of API discovery doc URLs for APIs used by the quickstart
-     var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest"];
+var CLIENT_ID = '122566819561-266nkdlave95pdr558rt9l3f4iolmfv5.apps.googleusercontent.com';
 
-     // Authorization scopes required by the API. If using multiple scopes,
-     // separated them with spaces.
-     var SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
+// Array of API discovery doc URLs for APIs used by the quickstart
+var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest"];
 
-     var authorizeButton = document.getElementById('authorize-button');
-     var signoutButton = document.getElementById('signout-button');
+// Authorization scopes required by the API. If using multiple scopes,
+// separated them with spaces.
+var SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
 
-     /**
-      *  On load, called to load the auth2 library and API client library.
-      */
-     function handleClientLoad() {
-       gapi.load('client:auth2', initClient);
-     }
+var authorizeButton = document.getElementById('authorize-button');
+var signoutButton = document.getElementById('signout-button');
 
-     /**
-      *  Initializes the API client library and sets up sign-in state
-      *  listeners.
-      */
-     function initClient() {
-       gapi.client.init({
-         discoveryDocs: DISCOVERY_DOCS,
-         clientId: CLIENT_ID,
-         scope: SCOPES
-       }).then(function () {
-         // Listen for sign-in state changes.
-         gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-         // Handle the initial sign-in state.
-         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-         authorizeButton.onclick = handleAuthClick;
-         signoutButton.onclick = handleSignoutClick;
-       });
-     }
+function handleClientLoad() {
+  gapi.load('client:auth2', initClient);
+}
 
-     /**
-      *  Called when the signed in status changes, to update the UI
-      *  appropriately. After a sign-in, the API is called.
-      */
-     function updateSigninStatus(isSignedIn) {
-       if (isSignedIn) {
-         authorizeButton.style.display = 'none';
-         signoutButton.style.display = 'block';
-         getChannel();
-       } else {
-         authorizeButton.style.display = 'block';
-         signoutButton.style.display = 'none';
-       }
-     }
+function initClient() {
+  gapi.client.init({
+    discoveryDocs: DISCOVERY_DOCS,
+    clientId: CLIENT_ID,
+    scope: SCOPES
+  }).then(function () {
+    // Listen for sign-in state changes.
+    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-     /**
-      *  Sign in the user upon button click.
-      */
-     function handleAuthClick(event) {
-       gapi.auth2.getAuthInstance().signIn();
-       $('#detail').css('display', 'inline-block');
-     }
+    // Handle the initial sign-in state.
+    updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+    authorizeButton.onclick = handleAuthClick;
+    signoutButton.onclick = handleSignoutClick;
+  });
+}
 
-     /**
-      *  Sign out the user upon button click.
-      */
-     function handleSignoutClick(event) {
-       gapi.auth2.getAuthInstance().signOut();
-       $('#detail').css('display', 'none');
-     }
+function onSignIn(googleUser) {
+   // Useful data for your client-side scripts:
+   var profile = googleUser.getBasicProfile();
+   console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+   console.log('Full Name: ' + profile.getName());
+   console.log('Given Name: ' + profile.getGivenName());
+   console.log('Family Name: ' + profile.getFamilyName());
+   console.log("Image URL: " + profile.getImageUrl());
+   console.log("Email: " + profile.getEmail());
+   var image = '<img src="' + profile.getImageUrl() + '" width="50px">';
+   addTop(image);
 
-     /**
-      * Append text to a pre element in the body, adding the given message
-      * to a text node in that element. Used to display info from API response.
-      *
-      * @param {string} message Text to be placed in pre element.
-      */
-     function appendPre(message) {
-       var pre = document.getElementById('content');
-       var textContent = document.createTextNode(message + '\n');
-       pre.appendChild(textContent);
-     }
+   // The ID token you need to pass to your backend:
+   var id_token = googleUser.getAuthResponse().id_token;
+   console.log("ID Token: " + id_token);
+ };
 
-     function addTop(id){
-       $('#detail').html(id.toUpperCase());
-     }
+ function handleAuthClick(event) {
+   gapi.auth2.getAuthInstance().signIn();
+ }
 
-     /**
-      * Print files.
-      */
-     function getChannel() {
-       gapi.client.youtube.channels.list({
-         'part': 'snippet,contentDetails,statistics',
-         'forUsername': 'ZMaslam'
-       }).then(function(response) {
-         var channel = response.result.items[0];
-         console.log(response);
-         appendPre('This channel\'s ID is ' + channel.id + '. ' +
-                   'Its title is \'' + channel.snippet.title + ', ' +
-                   'and it has ' + channel.statistics.viewCount + ' views.');
-         addTop(channel.snippet.title)
-       });
-     }
+ function handleSignoutClick(event) {
+   gapi.auth2.getAuthInstance().signOut();
+   $('#detail').css('display', 'none');
+ }
+
+ function updateSigninStatus(isSignedIn) {
+   if (isSignedIn) {
+    //  authorizeButton.style.display = 'none';
+    $('.g-signin2').css('display', 'none');
+    $('#detail').css('display', 'inline-block');
+     getChannel();
+   } else {
+    $('.g-signin2').css('display', 'inline-block');
+    $('#detail').css('display', 'none');
+   }
+ }
+
+ function addTop(item){
+   $('#detail').html(item);
+ }
+
+ function getChannel() {
+   gapi.client.youtube.channels.list({
+     'part': 'contentOwnerDetails,snippet,id,statistics,contentDetails,brandingSettings',
+     'forUsername': 'MrZMaslam'
+   }).then(function(response) {
+     var channel = response.result.items[0];
+     console.log(response);
+   });
+ }
+
+ // $('.g-signin2').on('click', function(event) {
+ //   event.preventDefault();
+ //   /* Act on the event */
+ //   $('.g-signin2').css('display', 'none');
+ // });
+
+ $('#detail').on('click', function(event) {
+   event.preventDefault();
+   /* Act on the event */
+   gapi.auth2.getAuthInstance().disconnect();
+ });
