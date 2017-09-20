@@ -1,5 +1,3 @@
-
-
 // Client ID and API key from the Developer Console
      var CLIENT_ID = '122566819561-266nkdlave95pdr558rt9l3f4iolmfv5.apps.googleusercontent.com';
 
@@ -60,6 +58,7 @@
       */
      function handleAuthClick(event) {
        gapi.auth2.getAuthInstance().signIn();
+       $('#detail').css('display', 'inline-block');
      }
 
      /**
@@ -67,6 +66,7 @@
       */
      function handleSignoutClick(event) {
        gapi.auth2.getAuthInstance().signOut();
+       $('#detail').css('display', 'none');
      }
 
      /**
@@ -81,17 +81,23 @@
        pre.appendChild(textContent);
      }
 
+     function addTop(id){
+       $('#detail').html(id.toUpperCase());
+     }
+
      /**
       * Print files.
       */
      function getChannel() {
        gapi.client.youtube.channels.list({
          'part': 'snippet,contentDetails,statistics',
-         'forUsername': 'GoogleDevelopers'
+         'forUsername': 'ZMaslam'
        }).then(function(response) {
          var channel = response.result.items[0];
+         console.log(response);
          appendPre('This channel\'s ID is ' + channel.id + '. ' +
                    'Its title is \'' + channel.snippet.title + ', ' +
                    'and it has ' + channel.statistics.viewCount + ' views.');
+         addTop(channel.snippet.title)
        });
      }
