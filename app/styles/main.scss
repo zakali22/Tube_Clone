@@ -110,7 +110,7 @@ img {
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   right: 20px;
   font-size: 20px;
@@ -119,4 +119,15 @@ img {
 
 .footer i {
   color: red;
+}
+
+.player {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+iframe {
+  margin-left: 10px;
 }

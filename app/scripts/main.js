@@ -1,4 +1,6 @@
 
+
+////////////////////////////////////////////////////////////////////////////////////////////
 var CLIENT_ID = '122566819561-266nkdlave95pdr558rt9l3f4iolmfv5.apps.googleusercontent.com';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
@@ -31,6 +33,7 @@ function initClient() {
     signoutButton.onclick = handleSignoutClick;
   });
 }
+
 
 function onSignIn(googleUser) {
    // Useful data for your client-side scripts:
@@ -70,9 +73,19 @@ function onSignIn(googleUser) {
    }
  }
 
+ $('#detail').on('click', function(event) {
+   event.preventDefault();
+   /* Act on the event */
+   handleSignoutClick(event);
+ });
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
  function addTop(item){
    $('#detail').html(item);
  }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
  function getChannel() {
    gapi.client.youtube.channels.list({
@@ -84,14 +97,47 @@ function onSignIn(googleUser) {
    });
  }
 
- // $('.g-signin2').on('click', function(event) {
- //   event.preventDefault();
- //   /* Act on the event */
- //   $('.g-signin2').css('display', 'none');
- // });
 
- $('#detail').on('click', function(event) {
-   event.preventDefault();
-   /* Act on the event */
-   gapi.auth2.getAuthInstance().disconnect();
- });
+//////////////////////////////////////////////////////////////////////////////////////
+
+function searchVid(searchTerm){
+  gapi.client.youtube.search.list({
+    'part': 'snippet',
+    'q': searchTerm,
+    'type': 'video',
+    'maxResults': 21
+  }).then(function(data){
+    console.log(data.result);
+    var vid = "";
+    $.each(data.result.items, function(key, val) {
+      var image = val.id.videoId;
+      vid += '<iframe id="player" type="text/html" width="440" height="290" src="http://www.youtube.com/embed/' + image + '?enablejsapi=1" frameborder="0"></iframe>';
+    });
+    $('.player').html(vid);
+  });
+}
+
+$('#y_search').on('click', function(event) {
+  event.preventDefault();
+  /* Act on the event */
+  var text = encodeURIComponent($('#search').val());
+  searchVid(text);
+});
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+    var tag = document.createElement('script');
+    tag.id = 'iframe-demo';
+    tag.src = 'https://www.youtube.com/iframe_api';
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('existing-iframe-example', {
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+      });
+    }
