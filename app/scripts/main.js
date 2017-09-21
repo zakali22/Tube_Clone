@@ -99,7 +99,7 @@ function onSignIn(googleUser) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////
-
+var token;
 function searchVid(searchTerm){
   gapi.client.youtube.search.list({
     'part': 'snippet',
@@ -108,6 +108,7 @@ function searchVid(searchTerm){
     'maxResults': 21
   }).then(function(data){
     console.log(data.result);
+    token = data.result.nextPageToken;
     var vid = "";
     $.each(data.result.items, function(key, val) {
       var image = val.id.videoId;
@@ -116,6 +117,29 @@ function searchVid(searchTerm){
     $('.player').html(vid);
   });
 }
+
+
+$('.btn').on('click', function(event) {
+  event.preventDefault();
+  /* Act on the event */
+  var text = encodeURIComponent($('#search').val());
+  gapi.client.youtube.search.list({
+    'part': 'snippet',
+    'q': text,
+    'type': 'video',
+    'maxResults': 21,
+    'pageToken': token
+  }).then(function(data){
+    console.log(data.result);
+    token = data.result.nextPageToken;
+    var vid = "";
+    $.each(data.result.items, function(key, val) {
+      var image = val.id.videoId;
+      vid += '<iframe id="player" type="text/html" width="440" height="290" src="http://www.youtube.com/embed/' + image + '?enablejsapi=1" frameborder="0"></iframe>';
+    });
+    $('.player').html(vid);
+  });
+});
 
 $('#y_search').on('click', function(event) {
   event.preventDefault();
