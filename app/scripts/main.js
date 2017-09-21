@@ -99,7 +99,8 @@ function onSignIn(googleUser) {
 
 
 //////////////////////////////////////////////////////////////////////////////////////
-var token;
+var nextToken;
+var prevToken;
 function searchVid(searchTerm){
   gapi.client.youtube.search.list({
     'part': 'snippet',
@@ -108,7 +109,8 @@ function searchVid(searchTerm){
     'maxResults': 21
   }).then(function(data){
     console.log(data.result);
-    token = data.result.nextPageToken;
+    nextToken = data.result.nextPageToken;
+    prevToken = data.result.prevPageToken;
     var vid = "";
     $.each(data.result.items, function(key, val) {
       var image = val.id.videoId;
@@ -119,7 +121,7 @@ function searchVid(searchTerm){
 }
 
 
-$('.btn').on('click', function(event) {
+$('#next').on('click', function(event) {
   event.preventDefault();
   /* Act on the event */
   var text = encodeURIComponent($('#search').val());
@@ -128,10 +130,40 @@ $('.btn').on('click', function(event) {
     'q': text,
     'type': 'video',
     'maxResults': 21,
-    'pageToken': token
+    'pageToken': nextToken
   }).then(function(data){
     console.log(data.result);
-    token = data.result.nextPageToken;
+    nextToken = data.result.nextPageToken;
+    prevToken = data.result.prevPageToken;
+    var vid = "";
+    $.each(data.result.items, function(key, val) {
+      var image = val.id.videoId;
+      vid += '<iframe id="player" type="text/html" width="440" height="290" src="http://www.youtube.com/embed/' + image + '?enablejsapi=1" frameborder="0"></iframe>';
+    });
+    $('.player').html(vid);
+  });
+});
+
+$('#y_search').on('click', function(event) {
+  event.preventDefault();
+  /* Act on the event */
+  var text = encodeURIComponent($('#search').val());
+  searchVid(text);
+});
+
+$('#prev').on('click', function(event) {
+  event.preventDefault();
+  /* Act on the event */
+  var text = encodeURIComponent($('#search').val());
+  gapi.client.youtube.search.list({
+    'part': 'snippet',
+    'q': text,
+    'type': 'video',
+    'maxResults': 21,
+    'pageToken': prevToken
+  }).then(function(data){
+    console.log(data.result);
+    nextToken = data.result.nextPageToken;
     var vid = "";
     $.each(data.result.items, function(key, val) {
       var image = val.id.videoId;
