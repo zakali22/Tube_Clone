@@ -92,7 +92,7 @@ function onSignIn(googleUser) {
      'part': 'contentOwnerDetails,snippet,id,statistics,contentDetails,brandingSettings',
      'forUsername': 'MrZMaslam'
    }).then(function(response) {
-     var channel = response.result.items[0];
+     var channel = response.result.items;
      console.log(response);
    });
  }
@@ -176,6 +176,7 @@ $('#prev').on('click', function(event) {
 $('#y_search').on('click', function(event) {
   event.preventDefault();
   /* Act on the event */
+  $('.pagination').css('display', 'block');
   var text = encodeURIComponent($('#search').val());
   searchVid(text);
 });

@@ -8,6 +8,12 @@ nav {
   margin-top: 20px;
 }
 
+a, a:link, a:visited, a:hover, a:active {
+  color: #282828;
+  text-decoration: none;
+}
+
+
 nav ul {
   list-style: none;
   float: right;
@@ -133,7 +139,7 @@ iframe {
 }
 
 .pagination {
-  display: block;
+  display: none;
   width: 50%;
   margin: 0 auto;
   margin-top: 50px;
